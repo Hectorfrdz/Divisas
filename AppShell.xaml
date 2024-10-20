@@ -17,6 +17,11 @@
             <ShellContent ContentTemplate="{DataTemplate local:Inicio}"/>
         </Tab>
 
+        <Tab Title="Conversiones"
+             Icon="conversion.png">
+            <ShellContent ContentTemplate="{DataTemplate local:Conversiones}"/>
+        </Tab>
+
         <Tab Title="Divisas"
              Icon="currency.png">
             <ShellContent ContentTemplate="{DataTemplate local:Divisas}"/>

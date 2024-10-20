@@ -10,7 +10,7 @@
                HorizontalOptions="Center"/>
 
         <TableView Intent="Form"
-                BackgroundColor="Transparent">
+                   BackgroundColor="Transparent">
             <TableRoot>
                 <TableSection Title="Información del Usuario">
                     <TextCell Text="Nombre"

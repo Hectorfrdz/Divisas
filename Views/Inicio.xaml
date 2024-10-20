@@ -4,54 +4,28 @@
              x:Class="Divisas.Views.Inicio"
              Title="Inicio">
 
-    <VerticalStackLayout Padding="20">
-        <Label Text="Convertidor de divisas"
-               FontSize="Large"
-               Margin="0,0,0,20"
-               HorizontalOptions="Center"/>
+    <VerticalStackLayout Padding="20"
+                         Spacing="25"
+                         HorizontalOptions="Center">
+        <Label
+            Text="Bienvenidos a Divisas 'El Canario'"
+            FontSize="Large"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"/>
 
-        <Frame CornerRadius="10"
-               BackgroundColor="Transparent"
-               Padding="10"
-               Margin="0,0,0,30">
-            <VerticalStackLayout>
-                <Label Text="Cantidad"/>
-                <Entry Placeholder="Ingrese la cantidad"
-                       Keyboard="Numeric"/>
-                <Label Text="Convertir a"/>
-                <Entry Placeholder="Cantidad convertida"
-                       Keyboard="Numeric"/>
-            </VerticalStackLayout>
-        </Frame>
+        <Image
+            Source="moneda512x512.png"
+            WidthRequest="250"
+            HeightRequest="250"
+            Aspect="AspectFit"
+            Margin="0,20,0,0"
+            HorizontalOptions="Center"/>
 
-        <Button Text="Convertir"
-                Command="{Binding Convert}"
-                BackgroundColor="#FF5EB4FF"
-                TextColor="White"
-                CornerRadius="10"
-                Padding="10,5"
-                FontAttributes="Bold"/>
-
-        <Label Text="Conversiones realizadas"
-               FontSize="Medium"
-               HorizontalOptions="Center"
-               Margin="0,20,0,0"/>
-
-        <CollectionView ItemsSource="{Binding ConversionesList}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame CornerRadius="10"
-                           BorderColor="Transparent"
-                           Margin="5">
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Moneda}"/>
-                            <Label Text="{Binding MontoConvertido}"/>
-                        </VerticalStackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
+        <Label
+            Text="Explora nuestros sistema de divisas."
+            FontSize="Medium"
+            HorizontalOptions="Center"
+            Margin="0,20,0,0"/>
     </VerticalStackLayout>
 
 </ContentPage>

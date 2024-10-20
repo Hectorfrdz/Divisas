@@ -5,10 +5,18 @@
              Title="Divisas">
 
     <VerticalStackLayout Padding="20">
-        <Label Text="Divisas 'El Canario'"
+        <Label Text="Ingresar divisas"
                FontSize="Large"
                HorizontalOptions="Center"
                Margin="0,0,0,20"/>
+
+        <Button Text="Añadir divisa"
+                Command="{Binding AddDivisaCommand}"
+                BackgroundColor="#FF5EB4FF"
+                TextColor="White"
+                CornerRadius="10"
+                Padding="10,5"
+                FontAttributes="Bold"/>
 
         <CollectionView ItemsSource="{Binding DivisasList}">
             <CollectionView.ItemTemplate>
@@ -24,14 +32,6 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-        <Button Text="Añadir divisa"
-                Command="{Binding AddDivisaCommand}"
-                BackgroundColor="#FF5EB4FF"
-                TextColor="White"
-                CornerRadius="10"
-                Padding="10,5"
-                FontAttributes="Bold"/>
     </VerticalStackLayout>
 
 </ContentPage>
