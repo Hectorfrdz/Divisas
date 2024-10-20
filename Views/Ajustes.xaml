@@ -3,10 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Divisas.Views.Ajustes"
              Title="Ajustes">
-    <VerticalStackLayout>
-        <Label
-            Text="Welcome to settings!"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"/>
+
+    <VerticalStackLayout Padding="20">
+        <Label Text="Ajustes"
+               FontSize="Large"
+               HorizontalOptions="Center"/>
+
+        <TableView Intent="Form"
+                BackgroundColor="Transparent">
+            <TableRoot>
+                <TableSection Title="Información del Usuario">
+                    <TextCell Text="Nombre"
+                              Detail="{Binding Usuario.Nombre}"/>
+                    <TextCell Text="Apellido"
+                              Detail="{Binding Usuario.Apellido}"/>
+                    <TextCell Text="Correo"
+                              Detail="{Binding Usuario.Correo}"/>
+                    <TextCell Text="Rol"
+                              Detail="{Binding Usuario.Rol}"/>
+                </TableSection>
+            </TableRoot>
+        </TableView>
     </VerticalStackLayout>
+
 </ContentPage>

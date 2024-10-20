@@ -3,10 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Divisas.Views.Divisas"
              Title="Divisas">
-    <VerticalStackLayout>
-        <Label
-            Text="Welcome to List of Divisas!"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"/>
+
+    <VerticalStackLayout Padding="20">
+        <Label Text="Divisas 'El Canario'"
+               FontSize="Large"
+               HorizontalOptions="Center"
+               Margin="0,0,0,20"/>
+
+        <CollectionView ItemsSource="{Binding DivisasList}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="10"
+                           BorderColor="Transparent"
+                           Margin="5">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Nombre}"/>
+                            <Label Text="{Binding Valor}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="Añadir divisa"
+                Command="{Binding AddDivisaCommand}"
+                BackgroundColor="#FF5EB4FF"
+                TextColor="White"
+                CornerRadius="10"
+                Padding="10,5"
+                FontAttributes="Bold"/>
     </VerticalStackLayout>
+
 </ContentPage>

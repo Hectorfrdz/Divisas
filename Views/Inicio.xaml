@@ -3,10 +3,55 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Divisas.Views.Inicio"
              Title="Inicio">
-    <VerticalStackLayout>
-        <Label
-            Text="Welcome to Divisas 'El Canario'!"
-            VerticalOptions="Center"
-            HorizontalOptions="Center"/>
+
+    <VerticalStackLayout Padding="20">
+        <Label Text="Convertidor de divisas"
+               FontSize="Large"
+               Margin="0,0,0,20"
+               HorizontalOptions="Center"/>
+
+        <Frame CornerRadius="10"
+               BackgroundColor="Transparent"
+               Padding="10"
+               Margin="0,0,0,30">
+            <VerticalStackLayout>
+                <Label Text="Cantidad"/>
+                <Entry Placeholder="Ingrese la cantidad"
+                       Keyboard="Numeric"/>
+                <Label Text="Convertir a"/>
+                <Entry Placeholder="Cantidad convertida"
+                       Keyboard="Numeric"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <Button Text="Convertir"
+                Command="{Binding Convert}"
+                BackgroundColor="#FF5EB4FF"
+                TextColor="White"
+                CornerRadius="10"
+                Padding="10,5"
+                FontAttributes="Bold"/>
+
+        <Label Text="Conversiones realizadas"
+               FontSize="Medium"
+               HorizontalOptions="Center"
+               Margin="0,20,0,0"/>
+
+        <CollectionView ItemsSource="{Binding ConversionesList}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="10"
+                           BorderColor="Transparent"
+                           Margin="5">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Moneda}"/>
+                            <Label Text="{Binding MontoConvertido}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
     </VerticalStackLayout>
+
 </ContentPage>

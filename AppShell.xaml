@@ -7,9 +7,9 @@
     Shell.FlyoutBehavior="Disabled"
     Title="Divisas">
 
-    <TabBar Shell.TabBarBackgroundColor="#87CEEB"
+    <TabBar Shell.TabBarBackgroundColor="#FF5EB4FF"
             Shell.TabBarTitleColor="Black"
-            Shell.TabBarUnselectedColor="Gray"
+            Shell.TabBarUnselectedColor="Gainsboro"
             Shell.TabBarForegroundColor="Black">
 
         <Tab Title="Inicio"
