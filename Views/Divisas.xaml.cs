@@ -8,6 +8,7 @@ public partial class Divisas : ContentPage
 {
     private readonly DemoDbContext _dbContext;
     public ObservableCollection<Currency> Currencies { get; set; }
+    public ObservableCollection<Currency> FilteredCurrencies { get; set; } // ObservableCollection para mostrar las divisas filtradas
 
     public Divisas(DemoDbContext dbContext)
     {
@@ -15,6 +16,7 @@ public partial class Divisas : ContentPage
         InitializeComponent();
 
         Currencies = new ObservableCollection<Currency>();
+        FilteredCurrencies = new ObservableCollection<Currency>(); // Inicializar la colección filtrada
 
         LoadCurrencies();
     }
@@ -27,10 +29,29 @@ public partial class Divisas : ContentPage
             foreach (var currency in currencyList)
             {
                 Currencies.Add(currency);
+                FilteredCurrencies.Add(currency); // Agregar a ambas colecciones
             }
         }
 
-        lvCurrency.ItemsSource = Currencies;
+        lvCurrency.ItemsSource = FilteredCurrencies; // Bind a la colección filtrada
+    }
+
+    // Método para filtrar divisas basado en el texto del SearchBar
+    private void OnSearchBarTextChanged(object sender, TextChangedEventArgs e)
+    {
+        var searchText = e.NewTextValue.ToLower();
+
+        // Filtrar la lista original de divisas
+        var filteredList = Currencies.Where(c =>
+            c.Name.ToLower().Contains(searchText) ||
+            c.Code.ToLower().Contains(searchText)).ToList();
+
+        // Limpiar la colección filtrada y agregar los resultados del filtro
+        FilteredCurrencies.Clear();
+        foreach (var currency in filteredList)
+        {
+            FilteredCurrencies.Add(currency);
+        }
     }
 
     private async void OnAddCurrencyClicked(object sender, EventArgs e)
@@ -46,7 +67,9 @@ public partial class Divisas : ContentPage
         {
             _dbContext.Currency.Add(newCurrency);
             _dbContext.SaveChanges();
-            Currencies.Add(newCurrency);
+            Currencies.Clear();
+            FilteredCurrencies.Clear();
+            LoadCurrencies();
         }
         catch (Exception ex)
         {
@@ -83,9 +106,9 @@ public partial class Divisas : ContentPage
                 // Guardar cambios
                 _dbContext.SaveChanges();
 
-                // Actualizar la lista observable para reflejar los cambios en la UI
-                var index = Currencies.IndexOf(currencyInDb);
-                Currencies[index] = currencyInDb;
+                Currencies.Clear();
+                FilteredCurrencies.Clear();
+                LoadCurrencies();
             }
         }
         catch (Exception ex)
@@ -110,8 +133,9 @@ public partial class Divisas : ContentPage
                     _dbContext.Currency.Remove(currency);
                     _dbContext.SaveChanges();
 
-                    // Eliminar la divisa de la lista observable para actualizar la UI
-                    Currencies.Remove(currency);
+                    Currencies.Clear();
+                    FilteredCurrencies.Clear();
+                    LoadCurrencies();
                 }
                 catch (Exception ex)
                 {

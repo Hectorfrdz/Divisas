@@ -10,12 +10,18 @@
                HorizontalOptions="Center"
                Margin="0,0,0,20"/>
 
+        <!-- SearchBar for filtering currencies -->
+        <SearchBar x:Name="CurrencySearchBar"
+                   Placeholder="Buscar divisa"
+                   TextChanged="OnSearchBarTextChanged"
+                   Margin="0,0,0,20"/>
+
         <Button Text="Agregar Divisa" 
             Clicked="OnAddCurrencyClicked" 
             HorizontalOptions="Center" 
             Margin="0,20,0,20"/>
 
-        <CollectionView x:Name="lvCurrency" BackgroundColor="Transparent"  HeightRequest="500">
+        <CollectionView x:Name="lvCurrency" BackgroundColor="Transparent"  HeightRequest="400">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame Padding="5" Margin="3" BorderColor="#cccccc" CornerRadius="5" BackgroundColor="Transparent">
