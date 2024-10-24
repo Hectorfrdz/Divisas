@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Divisas.Views.AddCurrencyPage"
+             Title="Agregar Divisa">
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <!-- Título -->
+        <Label Text="Agregar Nueva Divisa" 
+               FontSize="24" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center" 
+               Margin="0,0,0,20"/>
+
+        <!-- Campo Nombre -->
+        <Entry x:Name="entryName" 
+               Placeholder="Nombre" 
+               BackgroundColor="#f0f0f0"
+               Margin="0,0,0,10" 
+               HeightRequest="50"
+               FontSize="Medium"
+               PlaceholderColor="Gray"
+               TextColor="Black"/>
+
+        <!-- Campo Código -->
+        <Entry x:Name="entryCode" 
+               Placeholder="Código" 
+               BackgroundColor="#f0f0f0"
+               Margin="0,0,0,10"
+               HeightRequest="50"
+               FontSize="Medium"
+               PlaceholderColor="Gray"
+               TextColor="Black"/>
+
+        <!-- Campo Precio de Compra -->
+        <Entry x:Name="entryPurchasePrice" 
+               Placeholder="Precio de Compra" 
+               Keyboard="Numeric" 
+               BackgroundColor="#f0f0f0"
+               Margin="0,0,0,10" 
+               HeightRequest="50"
+               FontSize="Medium"
+               PlaceholderColor="Gray"
+               TextColor="Black"/>
+
+        <!-- Campo Precio de Venta -->
+        <Entry x:Name="entrySalePrice" 
+               Placeholder="Precio de Venta" 
+               Keyboard="Numeric" 
+               BackgroundColor="#f0f0f0"
+               Margin="0,0,0,20" 
+               HeightRequest="50"
+               FontSize="Medium"
+               PlaceholderColor="Gray"
+               TextColor="Black"/>
+
+        <!-- Botones de Guardar y Cancelar -->
+        <HorizontalStackLayout Spacing="15">
+            <Button Text="Guardar" 
+                    Clicked="OnSaveClicked" 
+                    BackgroundColor="#007AFF" 
+                    TextColor="White" 
+                    CornerRadius="10"
+                    HeightRequest="50"
+                    HorizontalOptions="FillAndExpand"/>
+
+            <Button Text="Cancelar" 
+                    Clicked="OnCancelClicked" 
+                    BackgroundColor="#d3d3d3" 
+                    TextColor="Black" 
+                    CornerRadius="10"
+                    HeightRequest="50"
+                    HorizontalOptions="FillAndExpand"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

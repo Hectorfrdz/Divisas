@@ -10,24 +10,70 @@
                HorizontalOptions="Center"
                Margin="0,0,0,20"/>
 
-        <Button Text="Añadir divisa"
-                Command="{Binding AddDivisaCommand}"
-                BackgroundColor="#FF5EB4FF"
-                TextColor="White"
-                CornerRadius="10"
-                Padding="10,5"
-                FontAttributes="Bold"/>
+        <Button Text="Agregar Divisa" 
+            Clicked="OnAddCurrencyClicked" 
+            HorizontalOptions="Center" 
+            Margin="0,20,0,20"/>
 
-        <CollectionView ItemsSource="{Binding DivisasList}">
+        <CollectionView x:Name="lvCurrency" BackgroundColor="Transparent"  HeightRequest="500">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame CornerRadius="10"
-                           BorderColor="Transparent"
-                           Margin="5">
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Nombre}"/>
-                            <Label Text="{Binding Valor}"/>
-                        </VerticalStackLayout>
+                    <Frame Padding="5" Margin="3" BorderColor="#cccccc" CornerRadius="5" BackgroundColor="Transparent">
+                        <Grid>
+                            <!-- Definimos las filas y columnas -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Primera fila: Nombre de divisa y código -->
+                            <Label Text="{Binding Name}" 
+                           FontSize="Small" 
+                           FontAttributes="Bold" 
+                           Grid.Row="0" 
+                           Grid.Column="0" 
+                           HorizontalOptions="Start"/>
+
+                            <Label Text="{Binding Code}" 
+                           FontSize="Small" 
+                           Grid.Row="0" 
+                           Grid.Column="1" 
+                           HorizontalOptions="End"/>
+
+                            <!-- Segunda fila: Precios de compra y venta -->
+                            <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0">
+                                <Label Text="{Binding PurchasePrice, StringFormat='Compra: {0:C}'}" 
+                               FontSize="Small" 
+                               HorizontalOptions="StartAndExpand"/>
+                                <Label Text="{Binding SalePrice, StringFormat='Venta: {0:C}'}" 
+                               FontSize="Small" 
+                               HorizontalOptions="EndAndExpand"/>
+                            </StackLayout>
+
+                            <!-- Tercera fila: Botones de editar y eliminar -->
+                            <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="10">
+                                <Button Text="Editar" 
+                                Clicked="OnEditCurrencyClicked" 
+                                CommandParameter="{Binding .}" 
+                                BackgroundColor="#e0e0e0" 
+                                TextColor="Black"
+                                FontSize="Small"
+                                HeightRequest="50"/>
+
+                                <Button Text="Eliminar" 
+                                Clicked="OnDeleteCurrencyClicked" 
+                                CommandParameter="{Binding .}" 
+                                BackgroundColor="#FF3B30" 
+                                TextColor="White"
+                                FontSize="Small"
+                                HeightRequest="50"/>
+                            </StackLayout>
+                        </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

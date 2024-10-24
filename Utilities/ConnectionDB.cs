@@ -2,45 +2,45 @@ using System;
 
 namespace Divisas.Utilities;
 
-public class ConnectionDB
+public static class ConnectionDB
 {
-    public string NameDB { get; set; }
+    //public string NameDB { get; set; }
 
-    public ConnectionDB(string databaseName)
-    {
-        NameDB = databaseName;
-    }
+    //public ConnectionDB(string databaseName)
+    //{
+    //    NameDB = databaseName;
+    //}
 
-    public string GetRouteFromDatabase()
+    public static string GetRouteFromDatabase(string nameDatabaseRoute)
     {
         string databaseRoute = string.Empty;
 
         if (DeviceInfo.Platform == DevicePlatform.Android)
         {
             databaseRoute = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            databaseRoute = Path.Combine(databaseRoute, NameDB);
-        }
-
-        if (DeviceInfo.Platform == DevicePlatform.iOS)
+            databaseRoute = Path.Combine(databaseRoute, nameDatabaseRoute);
+        } 
+        else if (DeviceInfo.Platform == DevicePlatform.iOS)
         {
             databaseRoute = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            databaseRoute = Path.Combine(databaseRoute, "..", "Library", NameDB);
-        }
+            databaseRoute = Path.Combine(databaseRoute, "..", "Library", nameDatabaseRoute);
+        };
 
         return databaseRoute;
     }
 
-    public void DeleteDatabase()
-    {
-        string databaseRoute = GetRouteFromDatabase();
 
-        if (!File.Exists(databaseRoute))
-        {
-            Console.WriteLine("Database not found");
-            return;
-        }
+    //public static void DeleteDatabase(string nameDatabaseRoute)
+    //{
+    //    string databaseRoute = GetRouteFromDatabase(nameDatabaseRoute);
 
-        File.Delete(databaseRoute);
-        Console.WriteLine("Database deleted");
-    }
+    //    if (!File.Exists(databaseRoute))
+    //    {
+    //        Console.WriteLine("Database not found");
+    //        return;
+    //    }
+
+    //    File.Delete(databaseRoute);
+    //    Console.WriteLine("Database deleted");
+    //}
 }
