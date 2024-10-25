@@ -1,103 +1,139 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Input;
+﻿using Divisas.DataAccess;
 using Divisas.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
+using Microsoft.Maui.Controls;
 
 namespace Divisas.ViewModels
 {
-    public class ConversionViewModel : INotifyPropertyChanged
+    public class ConversionViewModel : BindableObject
     {
-        private decimal _amount;
-        private Currency _fromCurrency;
-        private Currency _toCurrency;
-        private ObservableCollection<ConversionHistoryItem> _conversionesList;
+        private readonly DemoDbContext _dbContext;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public ObservableCollection<Currency> Currencies { get; set; }
+        public ObservableCollection<Transaction> Transactions { get; set; }
+        public ObservableCollection<Transaction> TempTransactions { get; set; }
 
-        public ConversionViewModel()
+        private string _amountEntry;
+        public string AmountEntry
         {
-            ConversionesList = new ObservableCollection<ConversionHistoryItem>();
-            ConvertCommand = new Command(OnConvert);
-        }
-
-        public decimal Amount
-        {
-            get => _amount;
+            get => _amountEntry;
             set
             {
-                _amount = value;
-                OnPropertyChanged(nameof(Amount));
+                _amountEntry = value;
+                OnPropertyChanged();
+                ConvertCurrency();
             }
         }
 
-        public Currency FromCurrency
+        private Currency _selectedCurrency1;
+        public Currency SelectedCurrency1
         {
-            get => _fromCurrency;
+            get => _selectedCurrency1;
             set
             {
-                _fromCurrency = value;
-                OnPropertyChanged(nameof(FromCurrency));
+                _selectedCurrency1 = value;
+                OnPropertyChanged();
+                ConvertCurrency();
             }
         }
 
-        public Currency ToCurrency
+        private Currency _selectedCurrency2;
+        public Currency SelectedCurrency2
         {
-            get => _toCurrency;
+            get => _selectedCurrency2;
             set
             {
-                _toCurrency = value;
-                OnPropertyChanged(nameof(ToCurrency));
+                _selectedCurrency2 = value;
+                OnPropertyChanged();
+                ConvertCurrency();
             }
         }
 
-        public ObservableCollection<ConversionHistoryItem> ConversionesList
+        private string _convertedAmount;
+        public string ConvertedAmount
         {
-            get => _conversionesList;
+            get => _convertedAmount;
             set
             {
-                _conversionesList = value;
-                OnPropertyChanged(nameof(ConversionesList));
+                _convertedAmount = value;
+                OnPropertyChanged();
             }
         }
 
-        public ICommand ConvertCommand { get; }
+        public ICommand SaveTransactionsCommand { get; set; }
 
-        private void OnConvert()
+        public ConversionViewModel(DemoDbContext dbContext)
         {
-            if (FromCurrency != null && ToCurrency != null && Amount > 0)
-            {
-                // Aquí se realizaría la lógica de conversión
-                decimal conversionRate = GetConversionRate(FromCurrency, ToCurrency);
-                decimal convertedValue = Amount * conversionRate;
+            _dbContext = dbContext;
 
-                // Añadir al historial
-                ConversionesList.Add(new ConversionHistoryItem
+            Currencies = new ObservableCollection<Currency>();
+            Transactions = new ObservableCollection<Transaction>();
+            TempTransactions = new ObservableCollection<Transaction>();
+
+            SaveTransactionsCommand = new Command(OnSaveTransactions);
+
+            LoadCurrencies();
+            LoadTransactions();
+        }
+
+        private void LoadCurrencies()
+        {
+            var currencyList = _dbContext.Currency.ToList();
+            foreach (var currency in currencyList)
+            {
+                Currencies.Add(currency);
+            }
+        }
+
+        private void LoadTransactions()
+        {
+            var transactionList = _dbContext.Transaction
+                                            .OrderByDescending(t => t.Date)
+                                            .ToList();
+
+            Transactions.Clear();
+            foreach (var trans in transactionList)
+            {
+                Transactions.Add(trans);
+            }
+        }
+
+        private void ConvertCurrency()
+        {
+            if (double.TryParse(AmountEntry, out double amount) &&
+                SelectedCurrency1 != null &&
+                SelectedCurrency2 != null)
+            {
+                double conversionRate = (double)(SelectedCurrency2.PurchasePrice / SelectedCurrency1.PurchasePrice);
+                double convertedAmount = amount * conversionRate;
+                ConvertedAmount = $"{convertedAmount:F2} {SelectedCurrency2.Code}";
+
+                TempTransactions.Add(new Transaction
                 {
-                    Moneda = ToCurrency.Name,
-                    MontoConvertido = convertedValue
+                    FromCurrencyId = SelectedCurrency1.Id,
+                    ToCurrencyId = SelectedCurrency2.Id,
+                    AmountConverted = (decimal)amount,
+                    ConvertedValue = (decimal)convertedAmount,
+                    ConversionRate = (decimal)conversionRate,
+                    Date = DateTime.UtcNow
                 });
-
-                // Reiniciar el monto
-                Amount = 0;
             }
         }
 
-        private decimal GetConversionRate(Currency fromCurrency, Currency toCurrency)
+        private void OnSaveTransactions()
         {
-            // Lógica para obtener el tipo de cambio entre divisas
-            // Por simplicidad, asumimos que es 1.0, deberías reemplazarlo con la lógica real
-            return 1.0m; // Placeholder
-        }
+            foreach (var transaction in TempTransactions)
+            {
+                _dbContext.Transaction.Add(transaction);
+            }
+            _dbContext.SaveChanges();
 
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            TempTransactions.Clear();
+            LoadTransactions();
         }
-    }
-
-    public class ConversionHistoryItem
-    {
-        public string Moneda { get; set; }
-        public decimal MontoConvertido { get; set; }
     }
 }

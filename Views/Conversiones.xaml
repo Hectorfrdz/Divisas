@@ -58,8 +58,9 @@
                Margin="0,20,0,0" />
 
         <!-- Limita el tamaño del CollectionView -->
-        <CollectionView x:Name="lvTransaction" BackgroundColor="Transparent" ItemsSource="{Binding TransactionsList}"
-                        HeightRequest="300">
+        <CollectionView x:Name="lvTransaction" BackgroundColor="Transparent" ItemsSource="{Binding Transactions}"
+                HeightRequest="300">
+
             <!-- Ajusta la altura según sea necesario -->
             <CollectionView.ItemTemplate>
                 <DataTemplate>

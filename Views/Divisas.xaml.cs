@@ -8,7 +8,7 @@ public partial class Divisas : ContentPage
 {
     private readonly DemoDbContext _dbContext;
     public ObservableCollection<Currency> Currencies { get; set; }
-    public ObservableCollection<Currency> FilteredCurrencies { get; set; } // ObservableCollection para mostrar las divisas filtradas
+    public ObservableCollection<Currency> FilteredCurrencies { get; set; }
 
     public Divisas(DemoDbContext dbContext)
     {
@@ -16,9 +16,11 @@ public partial class Divisas : ContentPage
         InitializeComponent();
 
         Currencies = new ObservableCollection<Currency>();
-        FilteredCurrencies = new ObservableCollection<Currency>(); // Inicializar la colección filtrada
+        FilteredCurrencies = new ObservableCollection<Currency>();
 
         LoadCurrencies();
+
+        BindingContext = this;
     }
 
     private void LoadCurrencies()
@@ -29,24 +31,21 @@ public partial class Divisas : ContentPage
             foreach (var currency in currencyList)
             {
                 Currencies.Add(currency);
-                FilteredCurrencies.Add(currency); // Agregar a ambas colecciones
+                FilteredCurrencies.Add(currency);
             }
         }
 
-        lvCurrency.ItemsSource = FilteredCurrencies; // Bind a la colección filtrada
+        lvCurrency.ItemsSource = FilteredCurrencies;
     }
 
-    // Método para filtrar divisas basado en el texto del SearchBar
     private void OnSearchBarTextChanged(object sender, TextChangedEventArgs e)
     {
         var searchText = e.NewTextValue.ToLower();
 
-        // Filtrar la lista original de divisas
         var filteredList = Currencies.Where(c =>
             c.Name.ToLower().Contains(searchText) ||
             c.Code.ToLower().Contains(searchText)).ToList();
 
-        // Limpiar la colección filtrada y agregar los resultados del filtro
         FilteredCurrencies.Clear();
         foreach (var currency in filteredList)
         {
@@ -97,18 +96,44 @@ public partial class Divisas : ContentPage
             var currencyInDb = _dbContext.Currency.FirstOrDefault(c => c.Id == updatedCurrency.Id);
             if (currencyInDb != null)
             {
-                // Actualizar los campos
                 currencyInDb.Name = updatedCurrency.Name;
                 currencyInDb.Code = updatedCurrency.Code;
                 currencyInDb.PurchasePrice = updatedCurrency.PurchasePrice;
                 currencyInDb.SalePrice = updatedCurrency.SalePrice;
 
-                // Guardar cambios
                 _dbContext.SaveChanges();
 
-                Currencies.Clear();
-                FilteredCurrencies.Clear();
-                LoadCurrencies();
+                // Actualiza la colección local
+                var index = Currencies.IndexOf(Currencies.FirstOrDefault(c => c.Id == updatedCurrency.Id));
+                if (index != -1)
+                {
+                    Currencies[index] = new Currency
+                    {
+                        Id = updatedCurrency.Id,
+                        Name = updatedCurrency.Name,
+                        Code = updatedCurrency.Code,
+                        PurchasePrice = updatedCurrency.PurchasePrice,
+                        SalePrice = updatedCurrency.SalePrice
+                    };
+                }
+
+                // Actualiza FilteredCurrencies
+                var filteredIndex = FilteredCurrencies.IndexOf(FilteredCurrencies.FirstOrDefault(c => c.Id == updatedCurrency.Id));
+                if (filteredIndex != -1)
+                {
+                    FilteredCurrencies[filteredIndex] = new Currency
+                    {
+                        Id = updatedCurrency.Id,
+                        Name = updatedCurrency.Name,
+                        Code = updatedCurrency.Code,
+                        PurchasePrice = updatedCurrency.PurchasePrice,
+                        SalePrice = updatedCurrency.SalePrice
+                    };
+                }
+
+                // Forzar actualización de la UI
+                lvCurrency.ItemsSource = null;
+                lvCurrency.ItemsSource = FilteredCurrencies; // Reasigna la fuente para que la UI se actualice
             }
         }
         catch (Exception ex)
@@ -116,6 +141,17 @@ public partial class Divisas : ContentPage
             DisplayAlert("Error", "No se pudo editar la divisa: " + ex.Message, "OK");
         }
     }
+
+
+
+    private void UpdateFilteredCurrencies()
+    {
+        Currencies.Clear();
+        FilteredCurrencies.Clear();
+        LoadCurrencies();
+    }
+
+
 
     private async void OnDeleteCurrencyClicked(object sender, EventArgs e)
     {
@@ -129,7 +165,6 @@ public partial class Divisas : ContentPage
             {
                 try
                 {
-                    // Eliminar la divisa de la base de datos
                     _dbContext.Currency.Remove(currency);
                     _dbContext.SaveChanges();
 

@@ -11,7 +11,7 @@ namespace Divisas.Views
         private readonly DemoDbContext _dbContext;
         public ObservableCollection<Currency> Currencies { get; set; }
         public ObservableCollection<Transaction> Transactions { get; set; }
-        public ObservableCollection<Transaction> TempTransactions { get; set; } // Colección temporal
+        public ObservableCollection<Transaction> TempTransactions { get; set; }
 
         public Conversiones(DemoDbContext dbContext)
         {
@@ -20,19 +20,25 @@ namespace Divisas.Views
 
             Currencies = new ObservableCollection<Currency>();
             Transactions = new ObservableCollection<Transaction>();
-            TempTransactions = new ObservableCollection<Transaction>(); // Inicializa la colección temporal
+            TempTransactions = new ObservableCollection<Transaction>();
+
+            LoadTransactions();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
 
             LoadCurrencies();
-            LoadTransactions();
         }
 
         private void LoadTransactions()
         {
             var transactionList = _dbContext.Transaction
-                                            .OrderByDescending(t => t.Date) // Ordenar de más reciente a más antiguo
+                                            .OrderByDescending(t => t.Date) 
                                             .ToList();
 
-            Transactions.Clear(); // Limpiar la colección antes de llenarla
+            Transactions.Clear();
 
             if (transactionList.Any())
             {
@@ -45,10 +51,9 @@ namespace Divisas.Views
             lvTransaction.ItemsSource = Transactions;
         }
 
-
-
         private void LoadCurrencies()
         {
+            Currencies.Clear();
             var currencyList = _dbContext.Currency.ToList();
 
             if (currencyList.Any())
@@ -67,8 +72,8 @@ namespace Divisas.Views
         {
             if (currencyPicker1.SelectedIndex != -1)
             {
-                amountEntry.Text = "1"; // Establecer la cantidad por defecto a 1
-                ConvertCurrency(); // Realiza la conversión inmediatamente
+                amountEntry.Text = "1";
+                ConvertCurrency();
             }
         }
 
@@ -77,14 +82,14 @@ namespace Divisas.Views
             if (currencyPicker2.SelectedIndex != -1)
             {
                 var selectedCurrency = Currencies[currencyPicker2.SelectedIndex];
-                priceLabel2.Text = $"Precio: {selectedCurrency.PurchasePrice:C}"; // Mostrar el precio
-                ConvertCurrency(); // Realiza la conversión inmediatamente
+                priceLabel2.Text = $"Precio: {selectedCurrency.PurchasePrice:C}";
+                ConvertCurrency();
             }
         }
 
         private void OnAmountEntryTextChanged(object sender, TextChangedEventArgs e)
         {
-            ConvertCurrency(); // Llama a la conversión cuando se cambie el texto
+            ConvertCurrency();
         }
 
         private void ConvertCurrency()
@@ -99,9 +104,8 @@ namespace Divisas.Views
                 double conversionRate = (double)(currency2.PurchasePrice / currency1.PurchasePrice);
                 double convertedAmount = amount * conversionRate;
 
-                priceLabel2.Text = $"{convertedAmount:F2} {currency2.Code}"; // Muestra la cantidad convertida
+                priceLabel2.Text = $"{convertedAmount:F2} {currency2.Code}";
 
-                // Almacenar la transacción en la colección temporal
                 TempTransactions.Add(new Transaction
                 {
                     FromCurrencyId = currency1.Id,
@@ -109,7 +113,7 @@ namespace Divisas.Views
                     AmountConverted = (decimal)amount,
                     ConvertedValue = (decimal)convertedAmount,
                     ConversionRate = (decimal)conversionRate,
-                    Date = DateTime.UtcNow // O la fecha que desees
+                    Date = DateTime.UtcNow
                 });
             }
         }
@@ -118,12 +122,12 @@ namespace Divisas.Views
         {
             foreach (var transaction in TempTransactions)
             {
-                _dbContext.Transaction.Add(transaction); // Añadir la nueva transacción
+                _dbContext.Transaction.Add(transaction);
             }
-            _dbContext.SaveChanges(); // Guardar los cambios en la base de datos
-            Transactions.Clear(); // Limpiar la lista de transacciones existentes
-            LoadTransactions(); // Volver a cargar las transacciones desde la base de datos
-            TempTransactions.Clear(); // Limpiar la colección temporal
+            _dbContext.SaveChanges();
+            Transactions.Clear();
+            LoadTransactions();
+            TempTransactions.Clear();
         }
     }
 }
