@@ -4,7 +4,8 @@
              xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              x:Class="Divisas.Views.Inicio"
-             Title="Inicio">
+             Title="Inicio"
+             BackgroundColor="White">
 
     <VerticalStackLayout Padding="20"
                          Spacing="25"
@@ -13,7 +14,8 @@
             Text="Bienvenidos a Divisas 'Patito'"
             FontSize="Large"
             FontAttributes="Bold"
-            HorizontalOptions="Center"/>
+            HorizontalOptions="Center"
+            TextColor="Black"/>
 
         <Image
             Source="moneda512x512.png"
@@ -24,10 +26,11 @@
             HorizontalOptions="Center"/>
 
         <Label
-            Text="Explora nuestros sistema de divisas."
+            Text="Explora nuestro sistema de divisas."
             FontSize="Medium"
             HorizontalOptions="Center"
-            Margin="0,20,0,0"/>
+            Margin="0,20,0,0"
+            TextColor="Black"/>
 
     </VerticalStackLayout>
 

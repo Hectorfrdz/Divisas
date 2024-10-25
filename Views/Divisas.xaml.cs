@@ -19,7 +19,6 @@ public partial class Divisas : ContentPage
     {
         var addCurrencyPage = new AddCurrencyPage();
 
-        // Suscribirse al evento CurrencyAdded
         addCurrencyPage.CurrencyAdded += (newCurrency) =>
         {
             var viewModel = BindingContext as DivisasViewModel;
@@ -43,8 +42,7 @@ public partial class Divisas : ContentPage
                 var viewModel = BindingContext as DivisasViewModel;
                 viewModel?.EditCurrency(editedCurrency);
 
-                // Recarga la vista completa
-                BindingContext = new DivisasViewModel(_dbContext); // Esto recargará el BindingContext
+                BindingContext = new DivisasViewModel(_dbContext);
             };
 
             await Navigation.PushModalAsync(editCurrencyPage);

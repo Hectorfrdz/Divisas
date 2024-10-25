@@ -86,7 +86,7 @@ namespace Divisas.ViewModels
         {
             _dbContext.Currency.Add(currency);
             _dbContext.SaveChanges();
-            LoadCurrencies(); // Recargar después de agregar
+            LoadCurrencies();
         }
 
         public void EditCurrency(Currency currency)
@@ -100,7 +100,6 @@ namespace Divisas.ViewModels
                 existingCurrency.SalePrice = currency.SalePrice;
                 _dbContext.SaveChanges();
 
-                // Recargar la lista completa
                 LoadCurrencies();
             }
         }
@@ -113,7 +112,7 @@ namespace Divisas.ViewModels
             {
                 _dbContext.Currency.Remove(existingCurrency);
                 _dbContext.SaveChanges();
-                LoadCurrencies(); // Recargar después de eliminar
+                LoadCurrencies();
             }
         }
 

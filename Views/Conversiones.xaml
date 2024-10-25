@@ -4,7 +4,7 @@
              xmlns:vm="clr-namespace:Divisas.ViewModels"
              x:Class="Divisas.Views.Conversiones"
              Title="Conversiones"
-             BackgroundColor="Transparent">
+             BackgroundColor="White">
 
     <VerticalStackLayout Padding="20">
         <Grid Margin="0,20,0,0">
@@ -15,33 +15,35 @@
             </Grid.ColumnDefinitions>
 
             <StackLayout Grid.Column="0" VerticalOptions="Center">
-                <Label Text="Selecciona la primera divisa:" FontSize="16" />
-                <Frame BorderColor="Transparent" BackgroundColor="Transparent" Padding="10" CornerRadius="5">
+                <Label Text="Selecciona la primera divisa:" FontSize="16" TextColor="Black" />
+                <Frame BorderColor="Transparent" BackgroundColor="White" Padding="10" CornerRadius="5">
                     <StackLayout>
                         <Picker Title="Elige una divisa"
                             ItemsSource="{Binding Currencies}"
                             ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding SelectedCurrency1}" />
+                            SelectedItem="{Binding SelectedCurrency1}" 
+                            TextColor="Black"/>
 
                         <Entry Placeholder="Cantidad"
                                Keyboard="Numeric"
                                FontSize="20"
-                               TextColor="White"
-                               Text="{Binding Amount, Mode=TwoWay}" />
+                               TextColor="Black"
+                            Text="{Binding Amount, Mode=TwoWay}" />
                     </StackLayout>
                 </Frame>
             </StackLayout>
 
             <StackLayout Grid.Column="2" VerticalOptions="Center">
-                <Label Text="Selecciona la segunda divisa:" FontSize="16" />
-                <Frame BorderColor="Transparent" BackgroundColor="Transparent" Padding="10" CornerRadius="5">
+                <Label Text="Selecciona la segunda divisa:" FontSize="16" TextColor="Black" />
+                <Frame BorderColor="Transparent" BackgroundColor="White" Padding="10" CornerRadius="5">
                     <StackLayout>
                         <Picker Title="Elige otra divisa"
                             ItemsSource="{Binding Currencies}"
                             ItemDisplayBinding="{Binding Name}"
-                            SelectedItem="{Binding SelectedCurrency2}" />
+                            SelectedItem="{Binding SelectedCurrency2}"
+                            TextColor="Black"/>
 
-                        <Label FontSize="20" TextColor="White" Text="{Binding ConvertedAmount}" />
+                        <Label FontSize="20" TextColor="Black" Text="{Binding ConvertedAmount}" />
                     </StackLayout>
                 </Frame>
             </StackLayout>
@@ -60,14 +62,15 @@
         <Label Text="Conversiones realizadas"
                FontSize="Medium"
                HorizontalOptions="Center"
-               Margin="0,20,0,0" />
+               Margin="0,20,0,0" 
+               TextColor="Black"/>
 
         <CollectionView BackgroundColor="Transparent"
                         ItemsSource="{Binding Transactions}"
                         HeightRequest="300">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Padding="5" Margin="3" BorderColor="#cccccc" CornerRadius="5" BackgroundColor="Transparent">
+                    <Frame Padding="5" Margin="3" BorderColor="#cccccc" CornerRadius="5" BackgroundColor="White">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -84,28 +87,33 @@
                                    FontAttributes="Bold" 
                                    Grid.Row="0" 
                                    Grid.Column="0" 
-                                   HorizontalOptions="Start" />
+                                   HorizontalOptions="Start" 
+                                   TextColor="Black"/>
 
                             <Label Text="{Binding ToCurrency.Code}" 
                                    FontSize="Small" 
                                    Grid.Row="0" 
                                    Grid.Column="1" 
-                                   HorizontalOptions="End" />
+                                   HorizontalOptions="End" 
+                                   TextColor="Black"/>
 
                             <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0">
                                 <Label Text="{Binding AmountConverted, StringFormat='Monto: {0:C}'}" 
                                        FontSize="Small" 
-                                       HorizontalOptions="StartAndExpand" />
+                                       HorizontalOptions="StartAndExpand"
+                                       TextColor="Black"/>
                                 <Label Text="{Binding ConvertedValue, StringFormat='Valor: {0:C}'}" 
                                        FontSize="Small" 
-                                       HorizontalOptions="EndAndExpand" />
+                                       HorizontalOptions="EndAndExpand"
+                                       TextColor="Black"/>
                             </StackLayout>
 
                             <Label Text="{Binding Date, StringFormat='Fecha: {0:dd/MM/yyyy}'}" 
                                    Grid.Row="2" 
                                    Grid.ColumnSpan="2" 
                                    FontSize="Small" 
-                                   HorizontalOptions="Center" />
+                                   HorizontalOptions="Center" 
+                                   TextColor="Black"/>
                         </Grid>
                     </Frame>
                 </DataTemplate>
