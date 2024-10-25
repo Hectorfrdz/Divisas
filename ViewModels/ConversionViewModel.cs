@@ -57,7 +57,7 @@ namespace Divisas.ViewModels
         {
             var transactionList = _dbContext.Transaction
                                             .OrderByDescending(t => t.Date)
-                                            .Take(10) // Limitar a solo 10 transacciones
+                                            .Take(10)
                                             .ToList();
             Transactions.Clear();
             foreach (var trans in transactionList)
@@ -110,7 +110,6 @@ namespace Divisas.ViewModels
 
                 ConvertedAmount = $"{convertedAmount:F2} {SelectedCurrency2.Code}";
 
-                // Limpia las transacciones temporales antes de agregar la nueva
                 TempTransactions.Clear();
 
                 TempTransactions.Add(new Transaction

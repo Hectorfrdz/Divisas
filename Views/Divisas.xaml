@@ -4,85 +4,97 @@
              x:Class="Divisas.Views.Divisas"
              xmlns:vm="clr-namespace:Divisas.ViewModels"
              Title="Divisas"
-             BackgroundColor="Transparent">
+             BackgroundColor="White">
 
     <VerticalStackLayout Padding="20">
         <Label Text="Ingresar divisas"
                FontSize="Large"
                HorizontalOptions="Center"
-               Margin="0,0,0,20"/>
+               Margin="0,0,0,20"
+               TextColor="Black"/>
 
         <SearchBar x:Name="CurrencySearchBar"
                    Placeholder="Buscar divisa"
                    Text="{Binding SearchText}"
-                   Margin="0,0,0,20"/>
+                   Margin="0,0,0,20"
+                   BackgroundColor="#f0f0f0" 
+                   TextColor="Black"/>
 
         <Button Text="Agregar Divisa" 
                 Clicked="OnAddCurrencyClicked" 
                 HorizontalOptions="Center" 
-                Margin="0,20,0,20"/>
+                Margin="0,20,0,20"
+                BackgroundColor="#4CAF50"
+                TextColor="White" 
+                CornerRadius="5"/>
 
         <CollectionView x:Name="lvCurrency" 
                         BackgroundColor="Transparent"  
                         HeightRequest="400"
                         ItemsSource="{Binding FilteredCurrencies}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame Padding="5" Margin="3" BorderColor="#cccccc" CornerRadius="5" BackgroundColor="Transparent">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="10" Margin="5" BorderColor="#cccccc" CornerRadius="5" BackgroundColor="White">
+                                
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
 
                             <Label Text="{Binding Name}" 
-                                   FontSize="Small" 
-                                   FontAttributes="Bold" 
+                                   FontSize="Medium"
+                                        FontAttributes="Bold" 
                                    Grid.Row="0" 
                                    Grid.Column="0" 
-                                   HorizontalOptions="Start"/>
+                                   HorizontalOptions="Start"
+                                   TextColor="Black"/>
 
                             <Label Text="{Binding Code}" 
-                                   FontSize="Small" 
+                                   FontSize="Medium" 
                                    Grid.Row="0" 
                                    Grid.Column="1" 
-                                   HorizontalOptions="End"/>
+                                   HorizontalOptions="End"
+                                   TextColor="Black"/>
 
-                            <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0">
-                                <Label Text="{Binding PurchasePrice, StringFormat='Compra: {0:C}'}" 
-                                       FontSize="Small" 
-                                       HorizontalOptions="StartAndExpand"/>
-                                <Label Text="{Binding SalePrice, StringFormat='Venta: {0:C}'}" 
-                                       FontSize="Small" 
-                                       HorizontalOptions="EndAndExpand"/>
-                            </StackLayout>
+                                    <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0">
+                                        <Label Text="{Binding PurchasePrice, StringFormat='Compra: {0:C}'}" 
+                                               FontSize="Small" 
+                                               HorizontalOptions="StartAndExpand"
+                                               TextColor="Black"/>
+                                
+                                        <Label Text="{Binding SalePrice, StringFormat='Venta: {0:C}'}" 
+                                               FontSize="Small" 
+                                               HorizontalOptions="EndAndExpand"
+                                               TextColor="Black"/>
+                                    </StackLayout>
 
-                            <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="10">
-                                <Button Text="Editar" 
-                                        Clicked="OnEditCurrencyClicked" 
-                                        CommandParameter="{Binding .}" 
-                                        BackgroundColor="#e0e0e0" 
-                                        TextColor="Black"
-                                        FontSize="Small"
-                                        HeightRequest="50"/>
+                                    <StackLayout Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalOptions="End" Spacing="10">
+                                        <Button Text="Editar" 
+                                            Clicked="OnEditCurrencyClicked" 
+                                            CommandParameter="{Binding .}" 
+                                            BackgroundColor="#e0e0e0" 
+                                            TextColor="Black"
+                                            FontSize="Small"
+                                            HeightRequest="50"/>
 
-                                <Button Text="Eliminar" 
-                                        Clicked="OnDeleteCurrencyClicked" 
-                                        CommandParameter="{Binding .}" 
-                                        BackgroundColor="#FF3B30" 
-                                        TextColor="White"
-                                        FontSize="Small"
-                                        HeightRequest="50"/>
-                            </StackLayout>
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                                        <Button Text="Eliminar" 
+                                            Clicked="OnDeleteCurrencyClicked" 
+                                            CommandParameter="{Binding .}" 
+                                            BackgroundColor="#FF3B30" 
+                                            TextColor="White"
+                                            FontSize="Small"
+                                            HeightRequest="50"/>
+                                        </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
     </VerticalStackLayout>
 </ContentPage>

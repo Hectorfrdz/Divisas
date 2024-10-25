@@ -17,7 +17,7 @@ namespace Divisas.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            _viewModel.LoadCurrencies(); // Recarga las divisas cada vez que la página aparece
+            _viewModel.LoadCurrencies();
         }
     }
 

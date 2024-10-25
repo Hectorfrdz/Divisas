@@ -4,14 +4,12 @@
              x:Class="Divisas.Views.EditCurrencyPage"
              Title="Editar Divisa">
     <VerticalStackLayout Padding="20" Spacing="15">
-        <!-- Título -->
         <Label Text="Editar Divisa" 
                FontSize="24" 
                FontAttributes="Bold" 
                HorizontalOptions="Center" 
                Margin="0,0,0,20"/>
 
-        <!-- Campo Nombre -->
         <Entry x:Name="entryName" 
                Placeholder="Nombre" 
                BackgroundColor="#f0f0f0" 
@@ -21,7 +19,6 @@
                PlaceholderColor="Gray"
                TextColor="Black"/>
 
-        <!-- Campo Código -->
         <Entry x:Name="entryCode" 
                Placeholder="Código" 
                BackgroundColor="#f0f0f0" 
@@ -31,7 +28,6 @@
                PlaceholderColor="Gray"
                TextColor="Black"/>
 
-        <!-- Campo Precio de Compra -->
         <Entry x:Name="entryPurchasePrice" 
                Placeholder="Precio de Compra" 
                Keyboard="Numeric" 
@@ -42,7 +38,6 @@
                PlaceholderColor="Gray"
                TextColor="Black"/>
 
-        <!-- Campo Precio de Venta -->
         <Entry x:Name="entrySalePrice" 
                Placeholder="Precio de Venta" 
                Keyboard="Numeric" 
@@ -53,7 +48,6 @@
                PlaceholderColor="Gray"
                TextColor="Black"/>
 
-        <!-- Botones Guardar y Cancelar -->
         <HorizontalStackLayout Spacing="15">
             <Button Text="Guardar" 
                     Clicked="OnSaveClicked" 
