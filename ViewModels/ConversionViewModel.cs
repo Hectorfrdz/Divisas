@@ -67,7 +67,7 @@ namespace Divisas.ViewModels
         }
 
 
-        private void LoadCurrencies()
+        public void LoadCurrencies()
         {
             var currencyList = _dbContext.Currency.ToList();
             Currencies.Clear();
@@ -75,6 +75,8 @@ namespace Divisas.ViewModels
             {
                 Currencies.Add(currency);
             }
+            Amount = 0;
+            ConvertedAmount = string.Empty;
         }
 
         public Currency SelectedCurrency1
