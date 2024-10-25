@@ -27,9 +27,9 @@
             <ShellContent ContentTemplate="{DataTemplate local:Divisas}"/>
         </Tab>
 
-        <Tab Title="Ajustes"
+        <!--<Tab Title="Ajustes"
              Icon="settings.png">
             <ShellContent ContentTemplate="{DataTemplate local:Ajustes}"/>
-        </Tab>
+        </Tab>-->
     </TabBar>
 </Shell>

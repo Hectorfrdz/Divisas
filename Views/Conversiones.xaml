@@ -1,56 +1,113 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Divisas.Views.Conversiones"
-             Title="Conversiones">
+             Title="Conversiones"
+             BackgroundColor="Transparent">
     <VerticalStackLayout Padding="20">
-        <Label Text="Convertidor de divisas"
-               FontSize="Large"
-               Margin="0,0,0,20"
-               HorizontalOptions="Center"/>
+        <Grid Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <Frame CornerRadius="10"
-               BackgroundColor="Transparent"
-               Padding="10"
-               Margin="0,0,0,30">
-            <VerticalStackLayout>
-                <Label Text="Cantidad"/>
-                <Entry Placeholder="Ingrese la cantidad"
-                       Keyboard="Numeric"/>
-                <Label Text="Convertir a"/>
-                <Entry Placeholder="Cantidad convertida"
-                       Keyboard="Numeric"/>
-            </VerticalStackLayout>
-        </Frame>
+            <StackLayout Grid.Column="0" VerticalOptions="Center">
+                <Label Text="Selecciona la primera divisa:" FontSize="16" />
+                <Frame BorderColor="Transparent" BackgroundColor="Transparent" Padding="10" CornerRadius="5">
+                    <StackLayout>
+                        <Picker x:Name="currencyPicker1"
+                                Title="Elige una divisa"
+                                SelectedIndexChanged="OnPicker1SelectedIndexChanged" />
 
-        <Button Text="Convertir"
-                Command="{Binding Convert}"
-                BackgroundColor="#FF5EB4FF"
+                        <Entry x:Name="amountEntry"
+                               Placeholder="Cantidad"
+                               Keyboard="Numeric"
+                               FontSize="20"
+                               TextColor="White"
+                               TextChanged="OnAmountEntryTextChanged" />
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
+            <StackLayout Grid.Column="2" VerticalOptions="Center">
+                <Label Text="Selecciona la segunda divisa:" FontSize="16" />
+                <Frame BorderColor="Transparent" BackgroundColor="Transparent" Padding="10" CornerRadius="5">
+                    <StackLayout>
+                        <Picker x:Name="currencyPicker2"
+                                Title="Elige otra divisa"
+                                SelectedIndexChanged="OnPicker2SelectedIndexChanged" />
+                        <Label x:Name="priceLabel2" FontSize="20" TextColor="White" />
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </Grid>
+
+        <BoxView HeightRequest="20" BackgroundColor="Transparent" />
+
+        <Button Text="Guardar"
+                Clicked="OnSaveTransactionsClicked"
+                BackgroundColor="#4CAF50"
                 TextColor="White"
                 CornerRadius="10"
                 Padding="10,5"
-                FontAttributes="Bold"/>
+                FontAttributes="Bold" />
 
         <Label Text="Conversiones realizadas"
                FontSize="Medium"
                HorizontalOptions="Center"
-               Margin="0,20,0,0"/>
+               Margin="0,20,0,0" />
 
-        <CollectionView ItemsSource="{Binding ConversionesList}">
+        <!-- Limita el tamaño del CollectionView -->
+        <CollectionView x:Name="lvTransaction" BackgroundColor="Transparent" ItemsSource="{Binding Transactions}"
+                HeightRequest="300">
+
+            <!-- Ajusta la altura según sea necesario -->
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame CornerRadius="10"
-                           BorderColor="Transparent"
-                           Margin="5">
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Moneda}"/>
-                            <Label Text="{Binding MontoConvertido}"/>
-                        </VerticalStackLayout>
+                    <Frame Padding="5" Margin="3" BorderColor="#cccccc" CornerRadius="5" BackgroundColor="Transparent">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Text="{Binding FromCurrency.Code}" 
+                                   FontSize="Small" 
+                                   FontAttributes="Bold" 
+                                   Grid.Row="0" 
+                                   Grid.Column="0" 
+                                   HorizontalOptions="Start" />
+
+                            <Label Text="{Binding ToCurrency.Code}" 
+                                   FontSize="Small" 
+                                   Grid.Row="0" 
+                                   Grid.Column="1" 
+                                   HorizontalOptions="End" />
+
+                            <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,5,0,0">
+                                <Label Text="{Binding AmountConverted, StringFormat='Monto: {0:C}'}" 
+                                       FontSize="Small" 
+                                       HorizontalOptions="StartAndExpand" />
+                                <Label Text="{Binding ConvertedValue, StringFormat='Valor: {0:C}'}" 
+                                       FontSize="Small" 
+                                       HorizontalOptions="EndAndExpand" />
+                            </StackLayout>
+
+                            <Label Text="{Binding Date, StringFormat='Fecha: {0:dd/MM/yyyy}'}" 
+                                   Grid.Row="2" 
+                                   Grid.ColumnSpan="2" 
+                                   FontSize="Small" 
+                                   HorizontalOptions="Center" />
+                        </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <!-- <ScrollView>
-        </ScrollView> -->
+
     </VerticalStackLayout>
 </ContentPage>
